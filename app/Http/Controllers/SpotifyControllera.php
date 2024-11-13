@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class spotifyController extends Controller
+class SpotifyControllera extends Controller
 {
-
     public function index()
     {
+        return Inertia::render('Spotify');
+    }
+
+    public function getToken()
+    {
+
         $clientId = env('SPOTIFY_CLIENT_ID');
         $clientSecret = env('SPOTIFY_SECRET');
         $authUrl = 'https://accounts.spotify.com/api/token';
@@ -26,7 +32,7 @@ class spotifyController extends Controller
             ]
         ])));
 
+        // dd($response);
         return json_encode($response);
     }
-
 }
