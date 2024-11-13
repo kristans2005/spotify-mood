@@ -16,7 +16,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <Head title="Welcome" />
             
-            <nav className="flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-emerald-600 sticky top-0 z-50 backdrop-blur-sm bg-opacity-80">
+            <nav className="fixed top-0 left-0 right-0 flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-emerald-600 z-50 backdrop-blur-sm bg-opacity-80">
                 <div className="flex items-center">
                     <span className="text-2xl font-bold text-white">🎵 Moodify</span>
                 </div>
@@ -47,7 +47,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 </div>
             </nav>      
 
-            <main className="relative min-h-screen bg-gradient-to-b from-green-900 to-emerald-900">
+            <main className="fixed inset-0 bg-gradient-to-b from-green-900 to-emerald-900">
                 {/* Animated background elements */}
                 <div className="absolute inset-0 overflow-hidden">
                     <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -56,7 +56,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 </div>
 
                 {/* Content */}
-                <div className="relative flex flex-col items-center justify-center min-h-screen px-4">
+                <div className="absolute inset-0 mt-16 flex items-center justify-center px-4">
                     <div className="max-w-4xl w-full backdrop-blur-lg bg-white/10 p-12 rounded-2xl shadow-2xl">
                         <h1 className="text-7xl font-bold text-white mb-6 animate-fade-in">
                             Your Music,
@@ -72,7 +72,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             Discover personalized playlists that perfectly match your emotional state. 
                             Experience music like never before.
                         </p>
-                       
                     </div>
                 </div>
             </main>

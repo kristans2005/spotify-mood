@@ -40,7 +40,7 @@ export default function Login({ status, canResetPassword }) {
                         </div>
                     )}
 
-                    <h2 className="text-3xl font-bold text-white mb-6 text-center">Welcome Back</h2>
+                    <h2 className="text-3xl font-bold text-white mb-6 text-center">Welcome Back!</h2>
 
                     <form onSubmit={submit}>
                         <div>
@@ -79,9 +79,14 @@ export default function Login({ status, canResetPassword }) {
                         
 
                         <div className="flex items-center justify-end mt-4">
+                            <Link
+                                href={route('register')}
+                                className="px-6 py-2 bg-white/10 rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 backdrop-blur-sm mr-16"
+                            >
+                                Register
+                            </Link>
                             
-
-                            <button className="ml-4 px-6 py-2 bg-emerald-500 rounded-full text-white font-semibold hover:bg-emerald-600 transition-all duration-300 shadow-lg">
+                            <button className="px-6 py-2 bg-emerald-500 rounded-full text-white font-semibold hover:bg-emerald-600 transition-all duration-300 shadow-lg ml-16">
                                 Log in
                             </button>
                         </div>
