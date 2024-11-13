@@ -16,35 +16,66 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <Head title="Welcome" />
             
-            <nav className="flex flex-1 justify-end p-3 bg-gradient-to-r bg-green-800 sticky top-0">
-                {auth.user ? (
-                    <Link
-                        href={route('dashboard')}
-                        className="rounded-md px-3 py-2 text-slate-300 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
-                    >
-                        Dashboard
-                    </Link>
-                ) : (
-                    <>
+            <nav className="flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-emerald-600 sticky top-0 z-50 backdrop-blur-sm bg-opacity-80">
+                <div className="flex items-center">
+                    <span className="text-2xl font-bold text-white">🎵 Moodify</span>
+                </div>
+                <div className="flex gap-4">
+                    {auth.user ? (
                         <Link
-                            href={route('login')}
-                            className="rounded-md px-3 py-2 text-slate-300 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
+                            href={route('dashboard')}
+                            className="px-4 py-2 bg-white/10 rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
                         >
-                            Log in
+                            Dashboard
                         </Link>
-                        <Link
-                            href={route('register')}
-                            className="rounded-md px-3 py-2 text-slate-300 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none"
-                        >
-                            Register
-                        </Link>
-                    </>
-                )}
+                    ) : (
+                        <>
+                            <Link
+                                href={route('login')}
+                                className="px-4 py-2 bg-white/10 rounded-full text-white font-semibold hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
+                            >
+                                Log in
+                            </Link>
+                            <Link
+                                href={route('register')}
+                                className="px-4 py-2 bg-emerald-500 rounded-full text-white font-semibold hover:bg-emerald-600 transition-all duration-300 shadow-lg"
+                            >
+                                Get Started
+                            </Link>
+                        </>
+                    )}
+                </div>
             </nav>      
-            <div className='flex flex-col justify-center min-h-screen bg-gray-400 place-items-center align-middle'>
-                <h1 className='text-6xl'>Moodify</h1>
-                <h2 className=''>Listen to your emotions!</h2>
-            </div>        
+
+            <main className="relative min-h-screen bg-gradient-to-b from-green-900 to-emerald-900">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                    <div className="absolute top-40 left-40 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+                </div>
+
+                {/* Content */}
+                <div className="relative flex flex-col items-center justify-center min-h-screen px-4">
+                    <div className="max-w-4xl w-full backdrop-blur-lg bg-white/10 p-12 rounded-2xl shadow-2xl">
+                        <h1 className="text-7xl font-bold text-white mb-6 animate-fade-in">
+                            Your Music,
+                            <br />
+                            <span className="bg-gradient-to-r from-emerald-400 to-green-300 text-transparent bg-clip-text">
+                                Your Emotions
+                            </span>
+                        </h1>
+                        <h2 className="text-3xl text-white/90 mb-8 animate-fade-in animation-delay-300">
+                            Let your mood guide your musical journey
+                        </h2>
+                        <p className="text-xl text-white/80 mb-12 max-w-2xl animate-fade-in animation-delay-600">
+                            Discover personalized playlists that perfectly match your emotional state. 
+                            Experience music like never before.
+                        </p>
+                       
+                    </div>
+                </div>
+            </main>
         </>
     );
 }
