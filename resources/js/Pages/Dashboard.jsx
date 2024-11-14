@@ -3,9 +3,66 @@ import Playlists from '@/Components/Playlists';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [token, setToken] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const response = await axios.get('/spotify/token');
+                //console.log(response.data);
+                
+                setToken(response.data.access_token);
+            } catch (err) {
+                setError('Failed to fetch token');
+                console.error(err);
+            }
+        };
+        fetchToken();
+    }, []);
+
+    useEffect(() => {
+        if (!token) return;
+
+        const fetchLatestRelease = async () => {
+            try {
+                const response = await axios.post('/spotify/latest', {
+                    token
+                }
+                );
+                console.log(response.data.albums);
+            } catch (err) {
+                setError('Failed to fetch latest release');
+                console.error(err);
+            }
+        }
+        fetchLatestRelease();
+
+    }, [token]);
+
+
+    async function handleMoodSubmit(e) {
+        e.preventDefault();
+        console.log(e.target.elements['spotify-token'].value);
+        
+        try {
+            const response = await axios.post('/spotify/mood', {
+                token,
+                mood: e.target.elements['spotify-token'].value
+            });
+            console.log(response.data);
+        } catch (err) {
+            setError('Failed to fetch mood playlists');
+            console.error(err);
+        }
+    }
+
 
     return (
         <AuthenticatedLayout>
