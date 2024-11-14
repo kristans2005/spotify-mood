@@ -2,53 +2,67 @@ import React, { useState } from 'react';
 
 const moodPlaylists = {
     happy: {
-        genres: ["pop", "rock", "funk"],
+        
+        genres: ["dance pop", "upbeat", "party"],
         playlists: [
             { 
-                name: "Happy Hits", 
+                name: "Happy Hits!", 
                 link: "spotify:playlist:37i9dQZF1DXdPec7aLTmlC", 
-                image: "https://i.scdn.co/image/ab67706f00000003bd0e19e810bb4b55ab164a95" 
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede" 
+            },
+            { 
+                name: "Good Vibes", 
+                link: "spotify:playlist:37i9dQZF1DX3rxVfibe1L0", 
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede" 
             },
         ]
     },
     sad: {
-        genres: ["ballad", "blues", "jazz"],
+        genres: ["indie", "emotional", "slow tempo"],
         playlists: [
             { 
-                name: "Sad Hours", 
+                name: "Sad Hour", 
                 link: "spotify:playlist:37i9dQZF1DX7qK8ma5wgG1", 
-                image: "https://i.scdn.co/image/ab67706f00000003b70e0223f544b1faa2e95ed0" },
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede" 
+            },
             { 
-                name: "Life Sucks", 
+                name: "Down in the Dumps", 
                 link: "spotify:playlist:37i9dQZF1DX3YSRoSdA634", 
-                image: "https://i.scdn.co/image/ab67706f000000034d26d431869cabfc53c67d8e" },
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede" 
+            },
         ]
     },
     angry: {
-        genres: ["metal", "punk", "grunge"],
+        genres: ["hard rock", "heavy metal", "intense"],
         playlists: [
             { 
-                name: "Rage Beats", 
+                name: "Adrenaline Workout", 
                 link: "spotify:playlist:37i9dQZF1DX1H1aGvtnPE0", 
-                image: "https://i.scdn.co/image/ab67706f000000035ea54b91b073c2776b966e7b" },
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede"
+            },
             { 
-                name: "Metal Essentials", 
+                name: "Rock Hard", 
                 link: "spotify:playlist:37i9dQZF1DWXIcbzpLauPS", 
-                image: "https://i.scdn.co/image/ab67706f000000039249b35f23fb596b6f006a15" },
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede"
+            },
         ]
     },
     calm: {
-        genres: ["classical", "ambient", "lo-fi"],
+        genres: ["ambient", "instrumental", "meditation"],
         playlists: [
             { 
-                name: "Lo-Fi Beats", 
-                link: "spotify:playlist:37i9dQZF1DWWQRwui0ExPn", 
-                image: "https://i.scdn.co/image/ab67706f000000035ea54b91b073c2776b966e7b" 
+                name: "Peaceful Piano", 
+                link: "spotify:playlist:37i9dQZF1DX4sWSpwq3LiO", 
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede"
+            },
+            { 
+                name: "Deep Focus", 
+                link: "spotify:playlist:37i9dQZF1DWZeKCadgRdKQ", 
+                image: "https://mosaic.scdn.co/640/ab67616d0000b2731c0bcf8b536295438d26c70dab67616d0000b273389ed09c9653c386371ea435ab67616d0000b2735d45abe7b704f0aaa390bafaab67616d0000b273f5b2c899a445add8cd103ede"
             },
         ]
     }
 };
-
 const PlaylistImage = ({ src, alt }) => {
     const [error, setError] = useState(false);
     
