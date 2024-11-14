@@ -24,15 +24,16 @@ Route::get('/history', function () {
     return Inertia::render('History');
 })->middleware(['auth', 'verified'])->name('history');
 
-Route::get('/history', function () {
-    return Inertia::render('History');
-})->middleware(['auth', 'verified'])->name('history');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/spotify', [SpotifyControllera::class, 'index'])->name('spotify');
 
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 
     Route::get('/spotify', [SpotifyControllera::class, 'index'])->name('spotify');
     Route::get('/spotify/token', [SpotifyControllera::class, 'getToken'])->name('spotify.token');
