@@ -23,9 +23,17 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
-                                    className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-emerald-100/80 hover:text-emerald-100 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-white hover:text-stone-400 transition duration-150 ease-in-out"
                                 >
                                     Dashboard
+                                </NavLink>
+
+                                <NavLink
+                                    href={route('history')}
+                                    active={route().current('history')}
+                                    className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-white hover:text-stone-400 transition duration-150 ease-in-out"
+                                >
+                                    History
                                 </NavLink>
                             </div>
                         </div>

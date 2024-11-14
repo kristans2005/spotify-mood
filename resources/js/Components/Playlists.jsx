@@ -4,31 +4,62 @@ const moodPlaylists = {
     happy: {
         genres: ["pop", "rock", "funk"],
         playlists: [
-            { name: "Happy Hits", link: "spotify:playlist:37i9dQZF1DXdPec7aLTmlC", image: "https://i.scdn.co/image/ab67706f00000003bd0e19e810bb4b55ab164a95" },
-            { name: "Feel Good Friday", link: "spotify:playlist:37i9dQZF1DX3rxVfibe1L0", image: "https://i.scdn.co/image/ab67706f000000034e1348c42b5b18c8d67cdd74" },
+            { 
+                name: "Happy Hits", 
+                link: "spotify:playlist:37i9dQZF1DXdPec7aLTmlC", 
+                image: "https://i.scdn.co/image/ab67706f00000003bd0e19e810bb4b55ab164a95" 
+            },
         ]
     },
     sad: {
         genres: ["ballad", "blues", "jazz"],
         playlists: [
-            { name: "Sad Hours", link: "spotify:playlist:37i9dQZF1DX7qK8ma5wgG1", image: "https://i.scdn.co/image/ab67706f000000034d26d431869cabfc53c67d8e" },
-            { name: "Life Sucks", link: "spotify:playlist:37i9dQZF1DX3YSRoSdA634", image: "https://i.scdn.co/image/ab67706f00000003e435ce0a86a8b9dc24527618" },
+            { 
+                name: "Sad Hours", 
+                link: "spotify:playlist:37i9dQZF1DX7qK8ma5wgG1", 
+                image: "https://i.scdn.co/image/ab67706f00000003b70e0223f544b1faa2e95ed0" },
+            { 
+                name: "Life Sucks", 
+                link: "spotify:playlist:37i9dQZF1DX3YSRoSdA634", 
+                image: "https://i.scdn.co/image/ab67706f000000034d26d431869cabfc53c67d8e" },
         ]
     },
     angry: {
         genres: ["metal", "punk", "grunge"],
         playlists: [
-            { name: "Rage Beats", link: "spotify:playlist:37i9dQZF1DX1H1aGvtnPE0", image: "https://i.scdn.co/image/ab67706f00000003a90866acaa73f74d68d33bb6" },
-            { name: "Metal Essentials", link: "spotify:playlist:37i9dQZF1DWXIcbzpLauPS", image: "https://i.scdn.co/image/ab67706f00000003a753f13d98de1c991797f364" },
+            { 
+                name: "Rage Beats", 
+                link: "spotify:playlist:37i9dQZF1DX1H1aGvtnPE0", 
+                image: "https://i.scdn.co/image/ab67706f000000035ea54b91b073c2776b966e7b" },
+            { 
+                name: "Metal Essentials", 
+                link: "spotify:playlist:37i9dQZF1DWXIcbzpLauPS", 
+                image: "https://i.scdn.co/image/ab67706f000000039249b35f23fb596b6f006a15" },
         ]
     },
     calm: {
         genres: ["classical", "ambient", "lo-fi"],
         playlists: [
-            { name: "Peaceful Piano", link: "spotify:playlist:37i9dQZF1DX4sWSpwq3LiO", image: "https://i.scdn.co/image/ab67706f00000003ca5a7517156021c57124c457" },
-            { name: "Lo-Fi Beats", link: "spotify:playlist:37i9dQZF1DWWQRwui0ExPn", image: "https://i.scdn.co/image/ab67706f000000035ea54b91b073c2776b966e7b" },
+            { 
+                name: "Lo-Fi Beats", 
+                link: "spotify:playlist:37i9dQZF1DWWQRwui0ExPn", 
+                image: "https://i.scdn.co/image/ab67706f000000035ea54b91b073c2776b966e7b" 
+            },
         ]
     }
+};
+
+const PlaylistImage = ({ src, alt }) => {
+    const [error, setError] = useState(false);
+    
+    return (
+        <img 
+            src={error ? '/path/to/fallback-image.jpg' : src} 
+            alt={alt}
+            onError={() => setError(true)}
+            className="w-16 h-16 object-cover rounded"
+        />
+    );
 };
 
 const Playlists = () => {
@@ -65,19 +96,18 @@ const Playlists = () => {
                     {moodPlaylists[selectedMood].playlists.map((playlist, index) => (
                         <div
                             key={playlist.name}
-                            className="flex items-center p-2 rounded-lg hover:bg-white/5 transition-all duration-300 cursor-pointer group"
+                            className="flex items-center p-2 rounded-lg hover:bg-emerald-800/20 transition-all duration-300 cursor-pointer group"
                             onClick={() => openSpotifyPlaylist(playlist.link)}
                             onMouseEnter={() => setHoveredIndex(index)}
                             onMouseLeave={() => setHoveredIndex(null)}
                         >
                             <div className="relative w-16 h-16 mr-4">
-                                <img 
+                                <PlaylistImage 
                                     src={playlist.image} 
                                     alt={playlist.name}
-                                    className="w-16 h-16 object-cover rounded"
                                 />
                                 {hoveredIndex === index && (
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded">
+                                    <div className="absolute inset-0 bg-emerald-900/40 flex items-center justify-center rounded">
                                         <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M8 5v14l11-7z"/>
                                         </svg>

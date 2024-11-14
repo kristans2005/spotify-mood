@@ -20,6 +20,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/history', function () {
+    return Inertia::render('History');
+})->middleware(['auth', 'verified'])->name('history');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/spotify', [SpotifyControllera::class, 'index'])->name('spotify');
 
