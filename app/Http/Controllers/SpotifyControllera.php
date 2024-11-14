@@ -31,8 +31,37 @@ class SpotifyControllera extends Controller
                 ])
             ]
         ])));
+        return json_encode($response);
+    }
 
-        // dd($response);
+    public function getLatestRelease(Request $request)
+    {
+        $token = $request->token;
+        $url = 'https://api.spotify.com/v1/browse/new-releases';
+        $response = json_decode(file_get_contents($url, false, stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'Authorization: Bearer ' . $token
+                ]
+            ]
+        ])));
+        return json_encode($response);
+    }
+
+    public function getMoodPlaylist(Request $request)
+    {
+        $token = $request->token;
+        $mood = $request->mood;
+        $url = 'https://api.spotify.com/v1/recommendations?seed_genres=' . $mood;
+        $response = json_decode(file_get_contents($url, false, stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'Authorization: Bearer ' . $token
+                ]
+            ]
+        ])));
         return json_encode($response);
     }
 }
