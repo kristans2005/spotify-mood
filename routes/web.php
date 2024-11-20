@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AzureController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\SpotifyControllera;
@@ -39,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/spotify/token', [SpotifyControllera::class, 'getToken'])->name('spotify.token');
     Route::post('/spotify/latest', [SpotifyControllera::class, 'getLatestRelease'])->name('spotify.latest');
     Route::post('/spotify/mood', [SpotifyControllera::class, 'getMoodPlaylist'])->name('spotify.mood');
+
+    Route::post('/azure/analyze', [AzureController::class, 'detectEmotion'])->name('azure.analyze');
 });
 
 require __DIR__ . '/auth.php';
