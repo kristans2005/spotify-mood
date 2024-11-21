@@ -7,26 +7,7 @@ import { useState } from 'react';
 export default function Dashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const initialPlaylists = {
-        happy: {
-            genres: ["pop", "rock", "funk"],
-            playlists: [
-                { 
-                    name: "Happy Hits!", 
-                    link: "spotify:playlist:37i9dQZF1DXdPec7aLTmlC", 
-                    image: "https://mosaic.scdn.co/640/..." 
-                },
-                // ... other happy playlists
-            ]
-        },
-        sad: {
-            genres: ["indie", "emotional", "slow tempo"],
-            playlists: [
-                // ... sad playlists
-            ]
-        },
-        // ... other moods
-    };
+
 
     return (
         <AuthenticatedLayout
