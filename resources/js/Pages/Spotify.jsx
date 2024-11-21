@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import TextInput from '@/Components/TextInput';
+import CameraDisplay from '@/Components/CameraDisplay';
 
 export default function Spotify() {
     const [token, setToken] = useState(null);
@@ -80,6 +81,20 @@ export default function Spotify() {
             
     };
 
+
+    
+    const handleImageSnapshot = (imageBlob) => {
+        const formData = new FormData();
+        formData.append("file", imageBlob);
+        fetch("http://127.0.0.1:6969/predict", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+
+    };
+
     return (
         <AuthenticatedLayout
             header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Spotify</h2>}
@@ -151,6 +166,9 @@ export default function Spotify() {
                                 Analyze Emotion
                             </button>
                         </form>
+                        <div>
+                            <CameraDisplay onSnapshot={handleImageSnapshot} />
+                        </div>
                     </div>
                 </div>
             </div>
