@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Mood from '@/Pages/Mood';
 
-
-
 const Playlists = () => {
     const [moodPlaylists, setMoodPlaylists] = useState(Mood);
     const [selectedMood, setSelectedMood] = useState('happy');
@@ -24,16 +22,17 @@ const Playlists = () => {
         fetchToken();
     }, []);
 
-    // Fetch playlists when mood changes
+    
     useEffect(() => {
         if (!token) return;
 
         const fetchMoodPlaylists = async () => {
+            const genre = moodPlaylists["mood"][selectedMood]["genres"].toString();
             setLoading(true);
             try {
                 const response = await axios.post('/spotify/mood', {
                     token,
-                    mood: selectedMood
+                    mood: genre
                 });
                 console.log(`Mood: ${selectedMood}`, response.data);
                 setMoodPlaylists(prev => ({
