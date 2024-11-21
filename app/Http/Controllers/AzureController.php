@@ -19,27 +19,61 @@ class AzureController extends Controller
 
     public function detectEmotion(Request $request)
     {
-        //dd($request);
         try {
             $client = new Client();
-            $response = $client->post($this->endpoint . '/face/v2.0/detect', [
+            $response = $client->post($this->endpoint . '/face/v1.0/detect', [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Ocp-Apim-Subscription-Key' => $this->subscriptionKey
                 ],
                 'json' => [
-                    'url' => $request->input('image_url')
+                    'url' => asset('images/image.jpg') // Convert to public URL
                 ],
                 'query' => [
-                    'returnFaceAttributes' => 'emotion'
+                    'detectionModel' => 'detection_01',
+                    'returnFaceAttributes' => 'age,gender,emotion',
+                    'recognitionModel' => 'recognition_04'
                 ]
             ]);
-
 
             return response()->json(json_decode($response->getBody()));
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function testAzureConnection()
+    {
+        try {
+            $client = new Client();
+            // Add specific API endpoint path
+            $response = $client->get($this->endpoint . '/face/v1.0/detect', [
+                'headers' => [
+                    'Ocp-Apim-Subscription-Key' => $this->subscriptionKey
+                ],
+                'query' => [
+                    'detectionModel' => 'detection_01'
+                ]
+            ]);
+
+            if ($response->getStatusCode() === 200) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Successfully connected to Azure'
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Connection failed with status code: ' . $response->getStatusCode()
+            ], 400);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Connection failed: ' . $e->getMessage()
             ], 500);
         }
     }

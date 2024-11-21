@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import TextInput from '@/Components/TextInput';
 
@@ -62,27 +62,23 @@ export default function Spotify() {
         }
     }
 
-    async function handleFileSubmit(e) {
+    const handleFileSubmit = (e) => {
         e.preventDefault();
-        console.log(selectedImage);
 
-        if (!selectedImage) {
-            return;
-        }
+        
+        const formData = new FormData();
+        formData.append("file", selectedImage);
+        fetch("http://127.0.0.1:6969/predict", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => setMood(data));
 
-        try {
-            const response = await axios.post('/azure/analyze', {
-                image_url: selectedImage['name']
-            });
-            console.log(response);
-            setMood(response.data);
-
-        } catch (err) {
-            setError('Failed to analyze image');
-            console.error(err);
-        }
-
-    }
+            console.log(mood);
+            
+            
+    };
 
     return (
         <AuthenticatedLayout
