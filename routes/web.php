@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/azure/test', [AzureController::class, 'testAzureConnection'])->name('azure.test');
 
     Route::post('/mood/anylize', [MoodController::class, 'detectMood'])->name('mood.analyze');
+
+    Route::post('/playlist-history', [SpotifyControllera::class, 'getHistory']);
 });
 
 require __DIR__ . '/auth.php';
