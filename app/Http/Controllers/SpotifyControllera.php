@@ -42,9 +42,7 @@ class SpotifyControllera extends Controller
         $response = json_decode(file_get_contents($url, false, stream_context_create([
             'http' => [
                 'method' => 'GET',
-                'header' => [
-                    'Authorization: Bearer ' . $token
-                ]
+                'header' => 'Authorization: Bearer ' . $token
             ]
         ])));
         return json_encode($response);
@@ -52,43 +50,42 @@ class SpotifyControllera extends Controller
 
     public function getMoodPlaylist(Request $request)
     {
-        $token = $request->token;
-        $mood = $request->mood;
-        $url = 'https://api.spotify.com/v1/recommendations?seed_genres=' . $mood;
 
-        // Get Spotify response
+        $token = $request->token;
+        $searchQuery = $request->mood;
+        $url = 'https://api.spotify.com/v1/search?q=' . urlencode($searchQuery) . '&type=track&limit=10';
+
         $response = json_decode(file_get_contents($url, false, stream_context_create([
             'http' => [
                 'method' => 'GET',
-                'header' => [
-                    'Authorization: Bearer ' . $token
-                ]
+                'header' => 'Authorization: Bearer ' . $token
             ]
         ])));
 
-        // Save history
-        if ($response && isset($response->tracks)) {
-            $processedAlbums = [];
 
-            // Process up to 20 tracks
-            $trackCount = min(count($response->tracks), 20);
+        // // Save history
+        // if ($response && isset($response->tracks)) {
+        //     $processedAlbums = [];
 
-            for ($i = 0; $i < $trackCount; $i++) {
-                $track = $response->tracks[$i];
-                $albumId = $track->album->id;
+        //     // Process up to 20 tracks
+        //     $trackCount = min(count($response->tracks), 20);
 
-                // Only save unique albums
-                if (!in_array($albumId, $processedAlbums) && !empty($track->album->images)) {
-                    $history = new PlaylistHistory();
-                    $history->name = $track->album->name;
-                    $history->picture = $track->album->images[0]->url;
-                    $history->created_at = now();
-                    $history->save();
+        //     for ($i = 0; $i < $trackCount; $i++) {
+        //         $track = $response->tracks[$i];
+        //         $albumId = $track->album->id;
 
-                    $processedAlbums[] = $albumId;
-                }
-            }
-        }
+        //         // Only save unique albums
+        //         if (!in_array($albumId, $processedAlbums) && !empty($track->album->images)) {
+        //             $history = new PlaylistHistory();
+        //             $history->name = $track->album->name;
+        //             $history->picture = $track->album->images[0]->url;
+        //             $history->created_at = now();
+        //             $history->save();
+
+        //             $processedAlbums[] = $albumId;
+        //         }
+        //     }
+        // }
 
         return json_encode($response);
     }

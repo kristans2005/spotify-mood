@@ -5,8 +5,8 @@ import Mood from '@/Pages/Mood';
 
 const Playlists = () => {
     const [moodPlaylists, setMoodPlaylists] = useState(Mood);
-    const [selectedMood, setSelectedMood] = useState('happy');
-    const [apiData, setApiData] = useState({});	
+    const [selectedMood, setSelectedMood] = useState('sad');
+    const [apiData, setApiData] = useState([]);	
     const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -17,6 +17,7 @@ const Playlists = () => {
             try {
                 const response = await axios.get('/spotify/token');
                 setToken(response.data.access_token);
+
             } catch (err) {
                 setError('Failed to fetch token');
                 console.error(err);
@@ -33,6 +34,8 @@ const Playlists = () => {
 
         const fetchMoodPlaylists = async () => {
             const genre = moodPlaylists["mood"][selectedMood]["genres"].toString();
+            console.log(genre);
+            
             setLoading(true);
             try {
                 const response = await axios.post('/spotify/mood', {
@@ -40,14 +43,15 @@ const Playlists = () => {
                     mood: genre
                 });
                 //console.log(`Mood: ${selectedMood}`, response.data);
-                setApiData(response.data.tracks);
-                console.log(response.data.tracks);
+                console.log(response.data.tracks.items);  
+                
+                setApiData(response.data.tracks.items);
+
                 
                 
                 
             } catch (err) {
                 setError(`Failed to fetch playlists for mood: ${selectedMood}`);
-                console.error(`Error response for ${selectedMood}:`, err.response?.data);
             } finally {
                 setLoading(false);
             }
@@ -93,17 +97,17 @@ const Playlists = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {apiData.map((album, index) => (
+                        {apiData.map((track, index) => (
 
                             <div 
-                                key={album.id}
+                                key={track.id}
                                 className="group bg-gray-800/40 p-4 rounded-lg hover:bg-gray-700/40 transition-all duration-300"
                             >
                                 <div className="relative">
                                     <div className="aspect-square mb-4 relative">
                                         <img 
-                                            src={album.images}
-                                            alt={album.name}
+                                            src={track.album.images[0]?.url || '/default-album-art.png'}
+                                            alt={track.name}
                                             className="w-full h-full object-cover rounded-md shadow-lg"
                                         />
                                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -111,7 +115,12 @@ const Playlists = () => {
                                                 className="bg-green-500 p-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    // Add play functionality here
+                                                    // Play track using Spotify Web Playback SDK
+                                                    if (track.uri) {
+                                                        spotifyApi.play({
+                                                            uris: [track.uri]
+                                                        });
+                                                    }
                                                 }}
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-8 h-8">
@@ -121,10 +130,10 @@ const Playlists = () => {
                                         </div>
                                     </div>
                                     <h3 className="text-white font-bold text-base mb-1 truncate">
-                                        {album.name}
+                                        {track.name}
                                     </h3>
                                     <p className="text-gray-400 text-sm truncate">
-                                        {album.artists?.map(artist => artist.name).join(', ') || 'Unknown Artist'}
+                                        {track.artists.map(artist => artist.name).join(', ')}
                                     </p>
                                 </div>
                             </div>
