@@ -41,12 +41,21 @@ module.exports = {
                 fadeIn: {
                     '0%': { opacity: '0', transform: 'translateY(20px)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' }
+                },
+                shimmer: {
+                    '0%': {
+                        backgroundPosition: '-100% -100%'
+                    },
+                    '100%': {
+                        backgroundPosition: '100% 100%'
+                    }
                 }
             },
             animation: {
                 'blob': 'blob 7s infinite',
                 'fade-in': 'fade-in 0.6s ease-out forwards',
-                fadeIn: 'fadeIn 0.5s ease-out forwards'
+                fadeIn: 'fadeIn 0.5s ease-out forwards',
+                'shimmer': 'shimmer 3s linear infinite'
             }
         },
     },

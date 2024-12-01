@@ -10,8 +10,8 @@ export default function AuthenticatedLayout({ header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-emerald-800 to-emerald-950">
-            <nav className="border-b border-emerald-600/20 bg-emerald-900/40 backdrop-blur-lg">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-950">
+            <nav className="border-b border-emerald-600/20 bg-emerald-900/60 backdrop-blur-xl shadow-lg">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
-                                    className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-white hover:text-stone-400 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-5 text-emerald-100 hover:text-white transition duration-150 ease-in-out rounded-lg hover:bg-emerald-800/50"
                                 >
                                     Dashboard
                                 </NavLink>
@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <NavLink
                                     href={route('history')}
                                     active={route().current('history')}
-                                    className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-white hover:text-stone-400 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-5 text-emerald-100 hover:text-white transition duration-150 ease-in-out rounded-lg hover:bg-emerald-800/50"
                                 >
                                     History
                                 </NavLink>
