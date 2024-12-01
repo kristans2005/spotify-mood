@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Mood from '@/Pages/Mood';
 import { motion } from 'framer-motion';
 
-const Playlists = () => {
+const Playlists = ({ onOpenAIMoodModal, currentMood }) => {
     const [moodPlaylists, setMoodPlaylists] = useState(Mood);
     const [selectedMood, setSelectedMood] = useState('happy');
     const [apiData, setApiData] = useState([]);    
@@ -51,6 +51,16 @@ const Playlists = () => {
         fetchMoodPlaylists();
     }, [token, selectedMood]);
 
+    useEffect(() => {
+        if (currentMood) {
+            setSelectedMood(currentMood.toLowerCase());
+        }
+    }, [currentMood]);
+
+    const handleAIMoodDetected = (mood) => {
+        setSelectedMood(mood.toLowerCase());
+    };
+
     // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -98,6 +108,7 @@ const Playlists = () => {
                         variants={itemVariants}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={onOpenAIMoodModal}
                         className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 p-6 text-center shadow-lg transition-all duration-300 hover:from-purple-700 hover:to-indigo-700"
                     >
                         <div className="mb-3 text-3xl">⭐</div>
