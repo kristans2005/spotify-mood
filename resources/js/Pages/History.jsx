@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function History() {
     const [history, setHistory] = useState([]);
@@ -9,8 +10,40 @@ export default function History() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 10 },
+        show: { 
+            opacity: 1, 
+            y: 0,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut"
+            }
+        }
+    };
+
+    const pageTransition = {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: 0.2 }
+    };
+
     useEffect(() => {
         const fetchHistory = async () => {
+            setLoading(true);
             try {
                 const response = await axios.post('/playlist-history', {
                     page: page,
@@ -36,31 +69,54 @@ export default function History() {
             <div className='p-12'>
                 <div className="py-12 bg-gray-800 rounded-xl ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {loading ? (
-                        <div className="flex justify-center">
-                            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-green-500"></div>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                                {history.map((item) => (
-                                    <div key={item.id} className="group relative rounded-md bg-gray-900 p-4 transition-all hover:bg-gray-800">
-                                        <div className="aspect-square w-full overflow-hidden rounded-md">
-                                            <img 
-                                                src={item.picture} 
-                                                alt={item.name}
-                                                className="h-full w-full object-cover transition-all group-hover:scale-105"
-                                            />
-                                        </div>
-                                        <h3 className="mt-2 truncate text-sm font-medium text-white">
-                                            {item.name}
-                                        </h3>
-                                        <p className="text-xs text-gray-400">
-                                            {new Date(item.created_at).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
+                    <AnimatePresence mode="wait">
+                        <motion.div 
+                            {...pageTransition}
+                            className="min-h-screen bg-gradient-to-b from-gray-900 to-black"
+                        >
+                            {loading ? (
+                                <motion.div 
+                                    className="flex h-64 items-center justify-center"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    <div className="h-8 w-8 animate-pulse rounded-full bg-green-500/20"></div>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    variants={containerVariants}
+                                    initial="hidden"
+                                    animate="show"
+                                    className="grid grid-cols-2 gap-6 p-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                                >
+                                    {history.map((item) => (
+                                        <motion.div
+                                            key={item.id}
+                                            variants={itemVariants}
+                                            whileHover={{ 
+                                                scale: 1.03,
+                                                transition: { duration: 0.2 }
+                                            }}
+                                            className="group relative overflow-hidden rounded-lg bg-gray-800/50 p-4 backdrop-blur-sm transition-colors duration-300 hover:bg-gray-700/50"
+                                        >
+                                            <div className="aspect-square overflow-hidden rounded-md">
+                                                <img 
+                                                    src={item.picture} 
+                                                    alt={item.name}
+                                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                />
+                                            </div>
+                                            <h3 className="mt-3 truncate text-sm font-medium text-white">
+                                                {item.name}
+                                            </h3>
+                                            <p className="text-xs text-gray-400">
+                                                {new Date(item.created_at).toLocaleDateString()}
+                                            </p>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            )}
                             <div className="mt-8 flex items-center justify-center gap-4">
                                 <button 
                                     onClick={() => setPage(prev => Math.max(prev - 1, 1))}
@@ -82,8 +138,8 @@ export default function History() {
                                     Next
                                 </button>
                             </div>
-                        </>
-                    )}
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 
