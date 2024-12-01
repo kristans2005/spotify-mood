@@ -81,7 +81,7 @@ const Playlists = ({ onOpenAIMoodModal, currentMood }) => {
             <div className="mb-12">
                 <h2 className="mb-6 text-2xl font-bold text-white">How are you feeling today?</h2>
                 <motion.div 
-                    className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                    className="grid grid-cols-2 gap-3 sm:gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
                     variants={containerVariants}
                     initial="hidden"
                     animate="show"
@@ -139,25 +139,25 @@ const Playlists = ({ onOpenAIMoodModal, currentMood }) => {
                             key={track.id}
                             variants={itemVariants}
                             whileHover={{ scale: 1.02 }}
-                            className="group flex cursor-pointer items-center rounded-xl bg-emerald-900/30 p-4 transition-all hover:bg-emerald-800/40 backdrop-blur-sm"
+                            className="group flex flex-col sm:flex-row items-center rounded-xl bg-emerald-900/30 p-3 sm:p-4 transition-all hover:bg-emerald-800/40 backdrop-blur-sm gap-2 sm:gap-0"
                         >
-                            <div className="mr-4 flex w-8 text-gray-400">{index + 1}</div>
-                            <div className="mr-4 h-12 w-12 overflow-hidden rounded">
+                            <div className="hidden sm:flex w-8 text-gray-400">{index + 1}</div>
+                            <div className="h-16 w-16 sm:h-12 sm:w-12 sm:mr-4 overflow-hidden rounded">
                                 <img 
                                     src={track.album?.images[0]?.url} 
                                     alt={track.name}
                                     className="h-full w-full object-cover"
                                 />
                             </div>
-                            <div className="flex-grow">
-                                <h3 className="text-white group-hover:text-green-400">
+                            <div className="flex-grow text-center sm:text-left">
+                                <h3 className="text-white group-hover:text-green-400 text-sm sm:text-base">
                                     {track.name}
                                 </h3>
-                                <p className="text-sm text-gray-400">
+                                <p className="text-xs sm:text-sm text-gray-400">
                                     {track.artists?.map(artist => artist.name).join(', ')}
                                 </p>
                             </div>
-                            <div className="text-sm text-emerald-300">
+                            <div className="text-xs sm:text-sm text-emerald-300">
                                 {Math.floor(track.duration_ms / 60000)}:
                                 {Math.floor((track.duration_ms % 60000) / 1000)
                                     .toString()

@@ -38,7 +38,7 @@ const AIMoodModal = ({ isOpen, onClose, onMoodDetected }) => {
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
-                        className="relative w-full max-w-4xl mx-auto rounded-2xl bg-gradient-to-b from-gray-900 to-black p-6 shadow-xl border border-gray-800 "
+                        className="relative w-[95%] max-w-4xl mx-auto rounded-2xl bg-gradient-to-b from-gray-900 to-black p-4 sm:p-6 shadow-xl border border-gray-800"
                     >
                         <button
                             onClick={onClose}
@@ -47,7 +47,7 @@ const AIMoodModal = ({ isOpen, onClose, onMoodDetected }) => {
                             ×
                         </button>
 
-                        <h2 className="mb-6 text-3xl text-center font-bold text-white">AI Mood Detection</h2>
+                        <h2 className="mb-4 sm:mb-6 text-2xl sm:text-3xl text-center font-bold text-white pr-8">AI Mood Detection</h2>
 
                         <div className="space-y-6">
                             <div className="flex flex-col items-center justify-center">

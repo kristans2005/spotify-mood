@@ -82,15 +82,15 @@ export default function CameraDisplay({ onSnapshot }) {
                         );
                     })}
                 </select>
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col sm:flex-row gap-2 sm:gap-4">
                     <button
                         onClick={takeSnapshot}
                         className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all"
                     >
                         <svg
                             fill="#ffffff"
-                            height="50px"
-                            width="50px"
+                            height="40px"
+                            width="40px"
                             version="1.1"
                             id="Capa_1"
                             xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@ export default function CameraDisplay({ onSnapshot }) {
                     </button>
                     <button
                         onClick={() => setContinuous((prev) => !prev)}
-                        className="bg-black/50 text-white px-4 py-2 rounded-lg hover:bg-black/70 transition-all"
+                        className="bg-black/50 text-white px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg hover:bg-black/70 transition-all whitespace-nowrap"
                     >
                         {continuous ? "Stop" : "Start"} Continuous
                     </button>

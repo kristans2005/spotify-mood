@@ -16,7 +16,12 @@ export default function AuthenticatedLayout({ header, children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex items-center">
-                                <span className="text-2xl font-bold text-emerald-100">🎵 Moodify</span>
+                                <Link
+                                    href={route('welcome')}
+                                    className="flex items-center"
+                                >
+                                    <span className="text-2xl font-bold text-emerald-100">🎵 Moodify</span>
+                                </Link>                                
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
