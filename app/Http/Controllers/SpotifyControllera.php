@@ -62,30 +62,29 @@ class SpotifyControllera extends Controller
             ]
         ])));
 
+        // Save history
+        if ($response && isset($response->tracks->items)) {
+            $processedTracks = [];
 
-        // // Save history
-        // if ($response && isset($response->tracks)) {
-        //     $processedAlbums = [];
+            // Process up to 10 tracks
+            $trackCount = min(count($response->tracks->items), 10);
 
-        //     // Process up to 20 tracks
-        //     $trackCount = min(count($response->tracks), 20);
+            for ($i = 0; $i < $trackCount; $i++) {
+                $track = $response->tracks->items[$i];
+                $trackId = $track->id;
 
-        //     for ($i = 0; $i < $trackCount; $i++) {
-        //         $track = $response->tracks[$i];
-        //         $albumId = $track->album->id;
+                // Only save unique tracks
+                if (!in_array($trackId, $processedTracks)) {
+                    $history = new PlaylistHistory();
+                    $history->name = $track->name . ' - ' . $track->artists[0]->name;
+                    $history->picture = $track->album->images[0]->url;
+                    $history->created_at = now();
+                    $history->save();
 
-        //         // Only save unique albums
-        //         if (!in_array($albumId, $processedAlbums) && !empty($track->album->images)) {
-        //             $history = new PlaylistHistory();
-        //             $history->name = $track->album->name;
-        //             $history->picture = $track->album->images[0]->url;
-        //             $history->created_at = now();
-        //             $history->save();
-
-        //             $processedAlbums[] = $albumId;
-        //         }
-        //     }
-        // }
+                    $processedTracks[] = $trackId;
+                }
+            }
+        }
 
         return json_encode($response);
     }
@@ -98,7 +97,7 @@ class SpotifyControllera extends Controller
      */
     public function getHistory(Request $request)
     {
-        $perPage = $request->input('per_page', 10); // Default 10 items per page
+        $perPage = $request->input('per_page', 30); // Default 10 items per page
 
         $history = PlaylistHistory::orderBy('created_at', 'desc')
             ->paginate($perPage);

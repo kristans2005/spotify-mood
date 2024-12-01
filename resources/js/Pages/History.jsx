@@ -9,6 +9,7 @@ export default function History() {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [mounted, setMounted] = useState(false);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -16,38 +17,33 @@ export default function History() {
             opacity: 1,
             transition: {
                 staggerChildren: 0.1,
-                duration: 0.3,
-                ease: "easeInOut"
+                when: "beforeChildren"
             }
         }
     };
 
     const itemVariants = {
-        hidden: { opacity: 0, y: 10 },
+        hidden: { opacity: 0, y: 20 },
         show: { 
             opacity: 1, 
             y: 0,
             transition: {
                 duration: 0.3,
-                ease: "easeInOut"
+                ease: "easeOut"
             }
         }
     };
 
-    const pageTransition = {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition: { duration: 0.2 }
-    };
-
     useEffect(() => {
+        if (!mounted) {
+            setMounted(true);
+        }
         const fetchHistory = async () => {
             setLoading(true);
             try {
                 const response = await axios.post('/playlist-history', {
                     page: page,
-                    per_page: 8 // Optional: adjust items per page
+                    per_page: 30
                 });
                 setHistory(response.data.data);
                 setTotalPages(response.data.last_page);
@@ -59,7 +55,7 @@ export default function History() {
         };
 
         fetchHistory();
-    }, [page]);
+    }, [page, mounted]);
 
     return (
         <AuthenticatedLayout
@@ -70,35 +66,35 @@ export default function History() {
                 <div className="py-12 bg-gray-800 rounded-xl ">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <AnimatePresence mode="wait">
-                        <motion.div 
-                            {...pageTransition}
-                            className="min-h-screen bg-gradient-to-b from-gray-900 to-black"
+                        <motion.div
+                            key={page}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
                         >
                             {loading ? (
                                 <motion.div 
-                                    className="flex h-64 items-center justify-center"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
+                                    className="flex justify-center"
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                                 >
-                                    <div className="h-8 w-8 animate-pulse rounded-full bg-green-500/20"></div>
+                                    <div className="h-8 w-8 rounded-full border-b-2 border-green-500"></div>
                                 </motion.div>
                             ) : (
                                 <motion.div
+                                    key={`container-${page}`}
                                     variants={containerVariants}
                                     initial="hidden"
                                     animate="show"
-                                    className="grid grid-cols-2 gap-6 p-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+                                    className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
                                 >
                                     {history.map((item) => (
                                         <motion.div
                                             key={item.id}
                                             variants={itemVariants}
-                                            whileHover={{ 
-                                                scale: 1.03,
-                                                transition: { duration: 0.2 }
-                                            }}
-                                            className="group relative overflow-hidden rounded-lg bg-gray-800/50 p-4 backdrop-blur-sm transition-colors duration-300 hover:bg-gray-700/50"
+                                            whileHover={{ scale: 1.05 }}
+                                            className="group relative rounded-md bg-gray-900 p-4 transition-all hover:bg-gray-800"
                                         >
                                             <div className="aspect-square overflow-hidden rounded-md">
                                                 <img 
