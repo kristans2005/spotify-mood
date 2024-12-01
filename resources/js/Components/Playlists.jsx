@@ -96,45 +96,34 @@ const Playlists = () => {
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                         {apiData.map((track, index) => (
 
                             <div 
                                 key={track.id}
-                                className="group bg-gray-800/40 p-4 rounded-lg hover:bg-gray-700/40 transition-all duration-300"
+                                className="group relative bg-gray-900/20 rounded-md p-3 hover:bg-gray-800/40 transition-all duration-200 cursor-pointer"
                             >
                                 <div className="relative">
-                                    <div className="aspect-square mb-4 relative">
+                                    <div className="aspect-square mb-3">
                                         <img 
                                             src={track.album.images[0]?.url || '/default-album-art.png'}
                                             alt={track.name}
-                                            className="w-full h-full object-cover rounded-md shadow-lg"
+                                            className="w-full h-full object-cover rounded-md shadow-md"
                                         />
-                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                                            <button 
-                                                className="bg-green-500 p-3 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    // Play track using Spotify Web Playback SDK
-                                                    if (track.uri) {
-                                                        spotifyApi.play({
-                                                            uris: [track.uri]
-                                                        });
-                                                    }
-                                                }}
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-8 h-8">
-                                                    <path d="M8 5v14l11-7z" />
+                                        <div className="absolute bottom-2 right-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200">
+                                            <button className="h-12 w-12 bg-green-500 rounded-full flex items-center justify-center shadow-xl hover:scale-105 hover:bg-green-400 transition-all">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                                 </svg>
                                             </button>
                                         </div>
                                     </div>
-                                    <h3 className="text-white font-bold text-base mb-1 truncate">
-                                        {track.name}
-                                    </h3>
-                                    <p className="text-gray-400 text-sm truncate">
-                                        {track.artists.map(artist => artist.name).join(', ')}
-                                    </p>
+                                    <div className="space-y-1">
+                                        <p className="text-white font-semibold truncate">{track.name}</p>
+                                        <p className="text-gray-400 text-sm truncate">
+                                            {track.artists.map(artist => artist.name).join(', ')}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         ))}
